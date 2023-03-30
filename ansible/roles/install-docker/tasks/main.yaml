@@ -1,0 +1,40 @@
+- name: install util
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    update-cache: true
+  become: true
+- name: create keyrings directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory  
+  become: true
+- name: add dockers official gpg key
+  shell:
+    cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --batch --yes --dearmor -o /etc/apt/keyrings/docker.gpg
+    creates: /etc/apt/keyrings/docker.gpg
+  become: true
+- name: set up the repository
+  shell:
+    cmd: |-
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list
+    creates: /etc/apt/sources.list.d/docker.list
+  become: true
+- name: install docker
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    update-cache: true
+  become: true
+- name: start docker
+  systemd:
+    name: docker
+    state: started
+  become: true

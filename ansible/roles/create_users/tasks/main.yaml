@@ -1,0 +1,13 @@
+- name: add user
+  user:
+    name: "{{ item.name }}"
+    groups: sudo
+    password: "{{ initialPassword | password_hash('sha512') }}"
+  with_items: "{{ users }}"
+  become: true
+- name: ssh copy id
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ item.publicKey }}"
+  with_items: "{{ users }}"
+  become: true

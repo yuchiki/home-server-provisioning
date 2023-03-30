@@ -1,0 +1,8 @@
+- hosts: home-servers
+  vars_files:
+  - vars/secrets.yaml
+  - vars/public.yaml
+  roles:
+  - enable_ansible_users_ssh_with_key
+  - disable_password_and_root_ssh
+  - create_users

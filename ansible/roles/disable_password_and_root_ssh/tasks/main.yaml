@@ -1,0 +1,24 @@
+- name: "パスワードによるSSHの禁止"
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^#?PasswordAuthentication yes$'
+    line: 'PasswordAuthentication no'
+  become: yes
+- name: "パスワードによるSSHの禁止"
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^#?UsePAM yes$'
+    line: 'UsePAM no'
+  become: yes
+- name: "root ユーザーのsshを禁止"
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^#?PermitRootLogin yes$'
+    line: 'PermitRootLogin no'
+  become: yes
+- name: sshd をリスタート
+  become: yes
+  service:
+    name: sshd
+    state: restarted
+    enabled: yes

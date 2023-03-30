@@ -1,0 +1,12 @@
+#!/bin/bash
+
+make encrypt 2>&1 | grep --quiet "already encrypted"
+already_encrypted=$?
+
+if [ $already_encrypted -eq 0 ]
+then
+    echo "vaultは暗号化済みです。"
+else
+    echo "vaultが暗号化されていませんでした。vaultを暗号化したので、再度commitしてください。"
+    exit 1
+fi

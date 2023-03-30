@@ -1,0 +1,7 @@
+- hosts: kubernetes-cluster
+  vars_files:
+  - vars/secrets.yaml
+  - vars/public.yaml
+  roles:
+  - install-docker
+  # TODO: install-kubernetes
