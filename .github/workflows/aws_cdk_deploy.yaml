@@ -4,6 +4,10 @@ on:
   push:
     branches:
     - $default-branch
+  # 実行確認のためにPR でも動くようにしている。merge までに削除する。
+  pull_request:
+    branches:
+    - $default-branch
 
 jobs:
   test:
@@ -30,7 +34,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: CDK deploy
-        run: cdk deploy --context targetEnvironment=production
+        # 実行確認のために、一度developにしている
+        run: cdk deploy --context targetEnvironment=development
         env:
           AWS_DEFAULT_REGION: 'ap-northeast-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
