@@ -1,0 +1,15 @@
+name: add todo to issues
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  add-to-do:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: add todo to issues
+        uses: alstr/todo-to-issue-action@v4
+
