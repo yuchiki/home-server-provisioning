@@ -3,11 +3,11 @@ name: AWS CDK deploy
 on:
   push:
     branches:
-    - $default-branch
+    - main
   # 実行確認のためにPR でも動くようにしている。merge までに削除する。
   pull_request:
     branches:
-    - $default-branch
+    - main
 
 jobs:
   test:
