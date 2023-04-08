@@ -25,3 +25,8 @@ vault key は growi に記載されています
 # 秘匿情報の編集
 
 `ansible-vault edit` コマンドを用いてください。
+
+
+# ロードマップ
+
+[roadmap](docs/roadmap.md)

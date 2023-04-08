@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - $default-branch
+  pull_request:
+    branches:
+    - $default-branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: CDK
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.14'
+      - name: setup dependencies
+        run: npm ci
+      - name: build
+        run: npm run build
+      - name: unit tests
+        run: npm run test
+      - name: CDK diff check
+        # push 時には aws_cdk_deploy の方でdiffをチェックしてからデプロイするので、PR時のみ。
+        if: ${{ github.event.issue.pull_request }}
+        run: cdk diff --context targetEnvironment=production
+        env:
+          AWS_DEFAULT_REGION: 'ap-northeast-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
