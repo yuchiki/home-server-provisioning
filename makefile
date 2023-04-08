@@ -27,7 +27,7 @@ cdk-deploy-dev:
 cdk-destroy-dev:
 	$(MAKE) -C CDK destroy-dev
 
-# CDK が正しくcloudfront を生成できるか確かめる
+# CDK が正しくcloudformation を生成できるか確かめる
 cdk-synth:
 	$(MAKE) -C CDK synth
 
