@@ -29,7 +29,7 @@ jobs:
       - name: CDK diff check
         # push 時には aws_cdk_deploy の方でdiffをチェックしてからデプロイするので、PR時のみ。
         if: ${{ github.event.issue.pull_request }}
-        run: cdk diff --context targetEnvironment=production
+        run: npx cdk diff --context targetEnvironment=production
         env:
           AWS_DEFAULT_REGION: 'ap-northeast-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

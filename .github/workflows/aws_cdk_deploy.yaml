@@ -28,14 +28,14 @@ jobs:
       - name: unit tests
         run: npm run test
       - name: CDK diff check
-        run: cdk diff --context targetEnvironment=production
+        run: npx cdk diff --context targetEnvironment=production
         env:
           AWS_DEFAULT_REGION: 'ap-northeast-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: CDK deploy
         # 実行確認のために、一度developにしている
-        run: cdk deploy --context targetEnvironment=development
+        run: npx cdk deploy --context targetEnvironment=development
         env:
           AWS_DEFAULT_REGION: 'ap-northeast-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
