@@ -8,3 +8,4 @@ const app = new cdk.App();
 const stackConfig = getStackConfig(key =>  app.node.tryGetContext(key));
 new VPCStack(app, "yuchiki-vpc-stack", stackConfig);
 
+// TODO: vpnStackを追加する
