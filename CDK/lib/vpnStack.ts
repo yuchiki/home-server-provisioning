@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { AmazonLinuxImage, CfnEIPAssociation,  Vpc, Instance, InstanceClass, InstanceSize, InstanceType, SubnetType, UserData, AmazonLinuxGeneration, MachineImage, CfnKeyPair } from 'aws-cdk-lib/aws-ec2';
+import { AmazonLinuxImage, CfnEIPAssociation,  Vpc, Instance, InstanceClass, InstanceSize, InstanceType, SubnetType, UserData, AmazonLinuxGeneration, MachineImage, CfnKeyPair, SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 import { StackConfig } from './stackConfig';
 import { CfnEIP} from "aws-cdk-lib/aws-ec2";
@@ -16,7 +16,13 @@ export class VPNStack extends cdk.Stack {
         const userData = UserData.forLinux({shebang: '#!/bin/bash -ex'});
         userData.addCommands(
             'dnf install -y docker',
-            'systemctl enable --now docker'
+            'systemctl enable --now docker',
+            'dnf install -y gcc git make',
+            'cd /tmp',
+            'git clone https://git.zx2c4.com/wireguard-tools',
+            'make -C wireguard-tools/src -j$(nproc)',
+            'sudo make -C wireguard-tools/src install',
+            'wg',
         );
 
         const vpnKeyPair = new CfnKeyPair(this, "KeyPair for VPN",{
@@ -27,6 +33,12 @@ export class VPNStack extends cdk.Stack {
         new cdk.CfnOutput(this, 'GetSSHKeyCommand', {
             value: `aws ssm get-parameter --name /ec2/keypair/${vpnKeyPair.getAtt('KeyPairId')} --region ${this.region} --with-decryption --query Parameter.Value --output text`,
             description: "Get SSH Key Command",});
+
+        const securityGroup = new SecurityGroup(this, 'VPNInstanceSecurityGroup', {
+            vpc: vpc,
+            allowAllOutbound: true,
+            securityGroupName: 'VPNInstanceSecurityGroup',
+        });
 
         this.vpnInstance = new Instance(
             this,
@@ -41,6 +53,7 @@ export class VPNStack extends cdk.Stack {
                 userData:userData,
                 ssmSessionPermissions: true,
                 keyName: vpnKeyPair.keyName,
+                securityGroup: securityGroup,
             }
         );
 
@@ -48,5 +61,10 @@ export class VPNStack extends cdk.Stack {
             eip: elasticIP.ref,
             instanceId: this.vpnInstance.instanceId,
         });
+
+
+        new cdk.CfnOutput(this, 'VPNInstanceSecurityGroupId', {
+            value: securityGroup.securityGroupId,
+            description: "VPN Instance Security Group Id",});
     }
 }
