@@ -5,7 +5,6 @@ import { StackConfig } from './stackConfig';
 import { CfnEIP} from "aws-cdk-lib/aws-ec2";
 
 
-// docker が動いている vpn 用のインスタンスを作成
 export class VPNStack extends cdk.Stack {
     public readonly vpnInstance: Instance
 
@@ -15,8 +14,6 @@ export class VPNStack extends cdk.Stack {
 
         const userData = UserData.forLinux({shebang: '#!/bin/bash -ex'});
         userData.addCommands(
-            'dnf install -y docker',
-            'systemctl enable --now docker',
             'dnf install -y gcc git make',
             'cd /tmp',
             'git clone https://git.zx2c4.com/wireguard-tools',
