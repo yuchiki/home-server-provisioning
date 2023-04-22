@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnEIP, IpAddresses, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { CfnEIP, CfnKeyPair, IpAddresses, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 import { StackConfig } from './stackConfig';
 import { vpcCidr } from './vpcCidr';
@@ -20,9 +20,23 @@ export class VPCStack extends cdk.Stack {
             }
         );
 
-
-
-        this.vpnElasticIP = new CfnEIP(this, "Elastic IP for VPN");
+        this.vpnElasticIP = new CfnEIP(this, "Elastic IP for VPN",
+        {
+            tags: [
+                {
+                    key: "Name",
+                    value: "VPNEIP",
+                },
+                {
+                    key: "Environment",
+                    value: stackConfig.targetEnvironment,
+                },
+                {
+                    key: "Project",
+                    value: "VPN",
+                },
+            ]
+        });
 
         new cdk.CfnOutput(this, 'vpnElasticIP', { value: this.vpnElasticIP.ref});
     }
