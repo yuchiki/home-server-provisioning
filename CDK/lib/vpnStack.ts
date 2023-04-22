@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { AmazonLinuxImage, CfnEIPAssociation,  Vpc, Instance, InstanceClass, InstanceSize, InstanceType, SubnetType, UserData, AmazonLinuxGeneration, MachineImage, CfnKeyPair, SecurityGroup } from 'aws-cdk-lib/aws-ec2';
+import { CfnEIPAssociation,  Vpc, Instance, InstanceClass, InstanceSize, InstanceType, SubnetType, UserData, MachineImage, CfnKeyPair, SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 import { StackConfig } from './stackConfig';
 import { CfnEIP} from "aws-cdk-lib/aws-ec2";
