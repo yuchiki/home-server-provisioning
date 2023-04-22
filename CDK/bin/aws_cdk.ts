@@ -17,5 +17,3 @@ const vpnStack = new VPNStack(app, vpcStack.vpc, vpcStack.vpnElasticIP, "yuchiki
 
 // declare dependencies explicitely
 vpnStack.addDependency(vpcStack);
-
-// outputs
