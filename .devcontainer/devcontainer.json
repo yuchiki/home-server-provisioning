@@ -11,6 +11,10 @@
 		"ghcr.io/devcontainers-contrib/features/aws-cdk:2": {}
 	},
 
+	"extensions": [
+		"esbenp.prettier-vscode"
+	]
+
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
