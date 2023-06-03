@@ -66,7 +66,7 @@ export class VPNStack extends cdk.Stack {
         "/aws/service/ami-amazon-linux-latest/al2022-ami-kernel-5.15-x86_64"
       ),
       vpcSubnets: {
-        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        subnetType: SubnetType.PRIVATE_ISOLATED,
       },
       userData: userData,
       ssmSessionPermissions: true,
