@@ -21,12 +21,12 @@ export class VPCStack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 24,
-          name: "ingress",
+          name: "public",
           subnetType: SubnetType.PUBLIC,
         },
         {
           cidrMask: 24,
-          name: "rds",
+          name: "private",
           subnetType: SubnetType.PRIVATE_ISOLATED,
         },
       ],
