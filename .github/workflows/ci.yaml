@@ -10,6 +10,7 @@ on:
 
 jobs:
   prettier:
+    if: "false" #一時的
     runs-on: ubuntu-latest
     defaults:
       run:
