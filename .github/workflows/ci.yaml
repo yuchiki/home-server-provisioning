@@ -3,12 +3,27 @@ name: CI
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
     branches:
-    - main
+      - main
 
 jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: CDK
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18.14"
+      - name: setup dependencies
+        run: npm ci
+      - name: build
+        run: npm run prettier-check
   test:
     runs-on: ubuntu-latest
     defaults:
@@ -19,7 +34,7 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '18.14'
+          node-version: "18.14"
       - name: setup dependencies
         run: npm ci
       - name: build
@@ -31,7 +46,6 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: npx cdk diff --context targetEnvironment=production
         env:
-          AWS_DEFAULT_REGION: 'ap-northeast-1'
+          AWS_DEFAULT_REGION: "ap-northeast-1"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
