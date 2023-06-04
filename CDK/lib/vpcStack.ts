@@ -1,5 +1,5 @@
 import * as cdk from "aws-cdk-lib";
-import { CfnEIP, CfnKeyPair, IpAddresses, Vpc } from "aws-cdk-lib/aws-ec2";
+import { CfnEIP, SubnetType, IpAddresses, Vpc } from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 import { StackConfig } from "./stackConfig";
 import { vpcCidr } from "./vpcCidr";
@@ -18,6 +18,18 @@ export class VPCStack extends cdk.Stack {
 
     this.vpc = new Vpc(this, `vpc`, {
       ipAddresses: IpAddresses.cidr(vpcCidr[stackConfig.targetEnvironment]),
+      subnetConfiguration: [
+        {
+          cidrMask: 24,
+          name: "public",
+          subnetType: SubnetType.PUBLIC,
+        },
+        {
+          cidrMask: 24,
+          name: "private",
+          subnetType: SubnetType.PRIVATE_ISOLATED,
+        },
+      ],
       maxAzs: 2,
     });
 
