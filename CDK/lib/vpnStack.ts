@@ -40,7 +40,7 @@ export class VPNStack extends cdk.Stack {
     );
 
     const vpnKeyPair = new CfnKeyPair(this, "KeyPair for VPN", {
-      keyName: "VPNKeyPair",
+      keyName: `${stackConfig.targetEnvironment}-VPNKeyPair`,
     });
     vpnKeyPair.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
@@ -63,7 +63,7 @@ export class VPNStack extends cdk.Stack {
       vpc: vpc,
       instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
       machineImage: MachineImage.fromSsmParameter(
-        "/aws/service/ami-amazon-linux-latest/al2022-ami-kernel-5.15-x86_64"
+        "/aws/service/ami-amazon-linux-latest/al2022-ami-kernel-6.1-x86_64"
       ),
       vpcSubnets: {
         subnetType: SubnetType.PRIVATE_ISOLATED,
