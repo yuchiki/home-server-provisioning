@@ -1,0 +1,13 @@
+version: "3"
+services:
+  nginx:
+    image: tekn0ir/nginx-stream
+    ports:
+      - "53:53"
+      - "53:53/udp"
+      - "34197:34197/udp"
+    volumes:
+      - ./http.conf.d:/opt/nginx/http.conf.d
+      - ./stream.conf.d:/opt/nginx/stream.conf.d
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
