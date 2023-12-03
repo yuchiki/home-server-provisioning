@@ -41,3 +41,4 @@ vault key は growi に記載されています
 - [internal-proxy](./internal-proxy/)の導入
   - これで`sudo docker-compose up -d` すればいいはず
   - 現在は`~/dns` で dns という名前で動いているので、それを一回消してから
+- ufw の操作
